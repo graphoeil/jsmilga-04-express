@@ -1,6 +1,5 @@
 // Imports
 const express = require('express');
-const path = require('path');
 
 // Express server instance
 const app = express();
