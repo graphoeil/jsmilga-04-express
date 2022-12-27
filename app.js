@@ -4,25 +4,31 @@ const express = require('express');
 // Express server instance
 const app = express();
 
-// Middleware is a function
-// Middleware is between request and response
-//
-// Express pass req, res and next to middleware function for us
-const logger = (req, res, next) => {
-	const method = req.method;
-	const url = req.url;
-	const time = new Date().getFullYear();
-	console.log(method, url, time);
-	// The NEXT method
-	next(); // Call res.send() method
-};
+// Logger
+const logger = require('./logger');
+
+// Use middleware
+// Must be at the top of the code, order matter !!!
+// Instead of logger everywhere => app.get('/', logger, (req, res) => {});
+// With a path "/api" logger method will only run in this path and subpath
+app.use('/api', logger);
+
+// HTTP
 // Home
-app.get('/', logger, (req, res) => {
+app.get('/', (req, res) => {
 	res.send('Home');
 });
 // About
-app.get('/about', logger, (req, res) => {
+app.get('/about', (req, res) => {
 	res.send('About');
+});
+// Products
+app.get('/api/products', (req, res) => {
+	res.send('Products');
+});
+// Items
+app.get('/api/items', (req, res) => {
+	res.send('Items');
 });
 
 // Server listen
